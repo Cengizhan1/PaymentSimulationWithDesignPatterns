@@ -23,8 +23,7 @@ To get started with this project, clone the repository and follow the instructio
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/PaymentSimulationWithDesignPatterns.git
-   cd PaymentSimulationWithDesignPatterns
+   git clone https://github.com/Cengizhan1/PaymentSimulationWithDesignPatterns.git
 
 ---
 ## Maven Run
