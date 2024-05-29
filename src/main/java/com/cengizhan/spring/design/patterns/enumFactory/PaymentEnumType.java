@@ -6,10 +6,21 @@ import com.cengizhan.spring.design.patterns.enumFactory.payment.impl.WireTransfe
 
 public enum PaymentEnumType {
 
-    CREDIT_CARD("creditCard", new CreditCardPayment()),
-    WIRE_TRANSFER("wireTransfer", new WireTransferPayment());
+    CREDIT_CARD("creditCard", new CreditCardPayment()) {
+        @Override
+        public void output() {
+            System.out.println("Payment type: CREDIT_CARD");
+        }
+    },
+    WIRE_TRANSFER("wireTransfer", new WireTransferPayment()) {
+        @Override
+        public void output() {
+            System.out.println("Payment type: WIRE_TRANSFER");
+        }
+    };
 
     private final String value;
+
     private final Payment payment;
 
     PaymentEnumType(String value, Payment payment) {
@@ -20,17 +31,18 @@ public enum PaymentEnumType {
     public Payment getPayment() {
         return payment;
     }
-
     public String getValue() {
         return value;
     }
-
     public static PaymentEnumType getPaymentType(String name) {
         for (PaymentEnumType paymentType : PaymentEnumType.values()) {
             if (paymentType.getValue().equals(name)) {
                 return paymentType;
             }
         }
-        throw new IllegalArgumentException("Payment type not supported. Payment type: " + name);
+        throw new IllegalArgumentException("Invalid payment type: " + name);
     }
+
+    abstract public void output();
+
 }

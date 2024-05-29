@@ -14,12 +14,26 @@
 	<name>spring.design.patterns</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+
+		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- OpenAPI -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-core-jakarta</artifactId>
+			<version>2.2.21</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
 		</dependency>
 
 		<dependency>
@@ -34,6 +48,65 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-openapi-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/openapi/src/main/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>7.5.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/swagger/openapi.yml</inputSpec>
+							<generatorName>spring</generatorName>
+							<library>spring-boot</library>
+							<generateApiTests>false</generateApiTests>
+							<configOptions>
+								<basePackage>com.cengizhan.spring.design.patterns</basePackage>
+								<apiPackage>com.cengizhan.spring.design.patterns.api</apiPackage>
+								<modelPackage>com.cengizhan.spring.design.patterns.model</modelPackage>
+								<annotationLibrary>swagger2</annotationLibrary>
+								<useSpringBoot3>true</useSpringBoot3>
+								<documentationProvider>springdoc</documentationProvider>
+								<serializationLibrary>jackson</serializationLibrary>
+								<helpTxt>false</helpTxt>
+								<interfaceOnly>true</interfaceOnly>
+								<serviceInterface>false</serviceInterface>
+								<useBeanValidation>true</useBeanValidation>
+								<exceptionHandler>false</exceptionHandler>
+								<useSwaggerUI>false</useSwaggerUI>
+								<useJakartaEe>true</useJakartaEe>
+								<openApiNullable>false</openApiNullable>
+								<skipDefaultInterface>true</skipDefaultInterface>
+								<reactive>false</reactive>
+								<useTags>true</useTags>
+								<useResponseEntity>true</useResponseEntity>
+							</configOptions>
+							<output>${project.build.directory}/generated-sources/openapi</output>
+						</configuration>
+					</execution>
+				</executions>
+
 			</plugin>
 		</plugins>
 	</build>
